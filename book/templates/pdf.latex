@@ -400,6 +400,11 @@ $if(logo)$
 $endif$
 $endif$
 
+\usepackage{float}
+\makeatletter
+\def\fps@figure{$figurePlacement$}
+\makeatother
+
 \begin{document}
 $if(has-frontmatter)$
 \frontmatter

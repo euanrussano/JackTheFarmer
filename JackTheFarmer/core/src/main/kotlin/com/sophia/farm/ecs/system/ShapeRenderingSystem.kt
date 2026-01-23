@@ -12,14 +12,15 @@ import com.sophia.farm.ecs.component.Size.Companion.size
 import ktx.ashley.allOf
 import kotlin.math.max
 
-class ShapeRenderingSystem: IteratingSystem(
+class ShapeRenderingSystem(
+    val shapeRenderer: ShapeRenderer
+): IteratingSystem(
     allOf(
         Position::class,
         Size::class,
         Shape::class
     ).get()
 ) {
-    val shapeRenderer = ShapeRenderer()
 
     override fun update(deltaTime: Float) {
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled)
@@ -44,7 +45,7 @@ class ShapeRenderingSystem: IteratingSystem(
             Shape.ShapeType.RECTANGLE -> shapeRenderer.rect(x-width/2, y-height/2, width, height)
             Shape.ShapeType.CIRCLE -> {
                 val radius = max(width, height)/2f
-                shapeRenderer.circle(x, y, radius)
+                shapeRenderer.circle(x, y, radius, 20)
             }
         }
 

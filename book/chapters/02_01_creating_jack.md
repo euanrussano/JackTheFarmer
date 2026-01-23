@@ -1,4 +1,4 @@
-# Creating Jack the Farmer
+# 2.1. Creating Jack the Farmer
 
 In this chapter will introduce the concept of Entity-Component-System (ECS) and contrast it with the classifcal Object-Oriented Design using Inheritance.  This design will form the basis for the rest of this tutorial series.
 
@@ -427,9 +427,23 @@ when (shape.type){
 }
 ```
 
+To use this system with the engine, we need to add it to the engine using the following code:
+
+```kotlin
+engine.addSystem(ShapeRenderingSystem())
+```
+
+Lastly, to run the engine (which will call the attached systems to process the entities), we call the `update` method in the `render`method of the `FirstScreen` class.
+
+```kotlin
+override fun render(delta: Float) {
+    engine.update(delta)
+}
+```
+
 Now we can see the results in the screen.
 
-![jack](images/screenshot_section02_01.png)
+![jack](images/02_01_screenshot_section02_01.png)
 
 
 Well that was a long chapter but we need to provide a really solid base to build upon. The good thing is that you have gone further than my beginners and have a basic understanding of ECS, LibGDX, Kotlin and Ashley. So next chapter we will see how to make the game interactive, by moving Jack around with the keyboard.

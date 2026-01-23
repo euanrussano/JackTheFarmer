@@ -8,7 +8,8 @@ BUILD = build
 MAKEFILE = Makefile
 OUTPUT_FILENAME = book
 METADATA = metadata.yml
-CHAPTERS = chapters/*.md
+#CHAPTERS = chapters/*.md
+CHAPTERS = $(shell find chapters -type f -name '*.md' | sort)
 TOC = --toc --toc-depth 2
 METADATA_ARGS = --metadata-file $(METADATA)
 IMAGES = $(shell find images -type f)
@@ -40,7 +41,7 @@ PANDOC_COMMAND = pandoc
 DOCX_ARGS = --standalone --reference-doc templates/docx.docx
 EPUB_ARGS = --template templates/epub.html --epub-cover-image $(COVER_IMAGE)
 HTML_ARGS = --template templates/html.html --standalone --to html5
-PDF_ARGS = --template templates/pdf.latex --pdf-engine xelatex
+PDF_ARGS = --template templates/pdf.latex --pdf-engine xelatex -V figurePlacement=H           
 
 # Per-format file dependencies
 
