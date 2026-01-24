@@ -3,6 +3,9 @@ package com.sophia.farm.ecs.system
 import com.badlogic.ashley.core.Entity
 import com.badlogic.ashley.systems.IteratingSystem
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer
+import com.sophia.farm.ecs.component.FieldOfView
+import com.sophia.farm.ecs.component.FieldOfView.Companion.fieldOfView
+import com.sophia.farm.ecs.component.Player
 import com.sophia.farm.ecs.component.Position
 import com.sophia.farm.ecs.component.Position.Companion.position
 import com.sophia.farm.ecs.component.Shape
@@ -29,12 +32,22 @@ class ShapeRenderingSystem(
     }
 
     override fun processEntity(entity: Entity, deltaTime: Float) {
+        val player = engine.getEntitiesFor(allOf(Player::class, FieldOfView::class).get()).first()
+        val fieldOfView = player.fieldOfView!!
+        val visiblePoints = fieldOfView.visiblePoints
+
         val position = entity.position!!
-        val size = entity.size!!
-        val shape = entity.shape!!
+
+        if (position.x to position.y !in visiblePoints) return
 
         val x = position.x.toFloat()
         val y = position.y.toFloat()
+
+
+        val size = entity.size!!
+        val shape = entity.shape!!
+
+
 
         val width = size.width.toFloat()
         val height = size.height.toFloat()

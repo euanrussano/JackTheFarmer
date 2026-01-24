@@ -69,6 +69,13 @@ class DungeonMapGenerator(val random: Random): MapGenerator {
         val room = rooms.first()
         val playerSpawn = room.center
 
-        return GeneratedMap(tiles, playerSpawn)
+        val spawnPoints = mutableListOf<Pair<Int, Int>>()
+        for (room in rooms.drop(1)){
+            spawnPoints.add(room.center)
+        }
+
+        return GeneratedMap(tiles, playerSpawn, spawnPoints)
     }
+
+
 }

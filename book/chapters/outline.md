@@ -3,7 +3,7 @@ Introduction
 2. Section 1 - Hello Kotlin
 2.1. Creating Jack the Farmer (entity creation)
 2.2. Jack Moves around the Abandoned Farm (basic movement)
-2.3. Jack visits the Mines (procedural map generation)
+2.3. Making Forest Clearings (procedural map generation)
 2.4. Field of View (or Jack can't see everything) 
 2.5. There are rats in the mines!(other entities)
 2.6. Being bitten by a rat and scaring them away (basic interaction)

@@ -4,16 +4,16 @@ import com.badlogic.ashley.core.Engine
 import com.badlogic.ashley.core.Entity
 import com.badlogic.ashley.systems.IteratingSystem
 import com.badlogic.gdx.Gdx
+import com.sophia.farm.Direction
 import com.sophia.farm.controller.Action
 import com.sophia.farm.controller.Keyboard
 import com.sophia.farm.controller.KeyboardPresets
-import com.sophia.farm.map.TileType
 import com.sophia.farm.ecs.component.Player
 import com.sophia.farm.ecs.component.Position
-import com.sophia.farm.ecs.component.Position.Companion.position
-import com.sophia.farm.ecs.component.Tilemap
-import com.sophia.farm.ecs.component.Tilemap.Companion.tilemap
+import com.sophia.farm.ecs.component.intent.WantsToMove
 import ktx.ashley.allOf
+import ktx.ashley.configureEntity
+import ktx.ashley.with
 
 class KeyboardInputSystem: IteratingSystem(
     allOf(
@@ -35,26 +35,24 @@ class KeyboardInputSystem: IteratingSystem(
     }
 
     override fun processEntity(entity: Entity, deltaTime: Float) {
-        val position = entity.position!!
+        var direction: Direction? = null
 
-        var newX = position.x
-        var newY = position.y
         if (keyboard.isHeld(Action.MOVE_UP)){
-            newY++
+            direction = Direction.UP
         } else if (keyboard.isHeld(Action.MOVE_DOWN)){
-            newY--
+            direction = Direction.DOWN
         } else if (keyboard.isHeld(Action.MOVE_LEFT)){
-            newX--
+            direction = Direction.LEFT
         } else if (keyboard.isHeld(Action.MOVE_RIGHT)){
-            newX++
+            direction = Direction.RIGHT
         }
 
-        val tilemapEntity = engine.getEntitiesFor(allOf(Tilemap::class).get()).first()
-        val tilemap = tilemapEntity.tilemap!!
-        val isWalkable = tilemap.tiles.getOrNull(newX)?.getOrNull(newY) == TileType.GROUND
-        if (isWalkable){
-            position.x = newX
-            position.y = newY
+        if (direction != null){
+            engine.configureEntity(entity){
+                with<WantsToMove>{
+                    this.direction = direction
+                }
+            }
         }
 
         keyboard.clearAllKeys()
