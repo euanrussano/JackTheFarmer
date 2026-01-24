@@ -1,7 +1,6 @@
-package com.sophia.farm
+package com.sophia.farm.map
 
 enum class TileType {
     GROUND,
     TREE
 }
-

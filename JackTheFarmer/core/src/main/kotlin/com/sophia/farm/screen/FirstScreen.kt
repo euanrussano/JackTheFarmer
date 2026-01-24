@@ -13,11 +13,14 @@ import ktx.ashley.with
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer
 import com.badlogic.gdx.utils.viewport.ExtendViewport
-import com.sophia.farm.TileType
+import com.sophia.farm.map.TileType
 import com.sophia.farm.ecs.component.Player
 import com.sophia.farm.ecs.component.Tilemap
+import com.sophia.farm.ecs.factory.EntityFactory
 import com.sophia.farm.ecs.system.KeyboardInputSystem
 import com.sophia.farm.ecs.system.TilemapRenderingSystem
+import com.sophia.farm.map.DungeonMapGenerator
+import com.sophia.farm.map.RandomMapGenerator
 import kotlin.random.Random
 
 class FirstScreen(val game: JackTheFarmer) : KtxScreen {
@@ -28,51 +31,15 @@ class FirstScreen(val game: JackTheFarmer) : KtxScreen {
     val mapWidth = 20
     val mapHeight = 20
 
-    val tiles = Array(mapWidth){x ->
-        Array(mapHeight){y ->
-            // surrounded by trees
-            if (x in listOf(0, mapWidth-1)){
-                return@Array TileType.TREE
-            }
-            if (y in listOf(0, mapHeight-1)){
-                return@Array TileType.TREE
-            }
-
-            // throw a bunch of trees
-            if (random.nextFloat() < 0.3f){
-                return@Array TileType.TREE
-            } else {
-                return@Array TileType.GROUND
-            }
-
-        }
-
-    }
-    val tilemap = engine.entity {
-        with<Tilemap>{
-            this.tiles = this@FirstScreen.tiles
-        }
-    }
-
-    val jack = engine.entity {
-        with<Position>{
-            x = 5
-            y = 5
-        }
-        with<Size>{
-            width = 1
-            height = 1
-        }
-        with<Shape>{
-            type = Shape.ShapeType.CIRCLE
-            color = Color.RED
-        }
-        with<Player>()
-
-    }
-
+    val mapGenerator = DungeonMapGenerator(random)
 
     override fun show() {
+        val generatedMap = mapGenerator.generate(mapWidth, mapHeight)
+
+        val tilemap = EntityFactory.tilemap(engine, generatedMap.tiles)
+
+        val jack = EntityFactory.player(engine, generatedMap.playerSpawn.first,generatedMap.playerSpawn.second)
+
         engine.addSystem(KeyboardInputSystem())
         engine.addSystem(TilemapRenderingSystem(shapeRenderer))
         engine.addSystem(ShapeRenderingSystem(shapeRenderer))

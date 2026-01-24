@@ -2,18 +2,17 @@ package com.sophia.farm.ecs.system
 
 import com.badlogic.ashley.core.Engine
 import com.badlogic.ashley.core.Entity
-import com.badlogic.ashley.core.EntitySystem
 import com.badlogic.ashley.systems.IteratingSystem
 import com.badlogic.gdx.Gdx
-import com.badlogic.gdx.Input.Keys
-import com.sophia.farm.Keyboard
-import com.sophia.farm.TileType
+import com.sophia.farm.controller.Action
+import com.sophia.farm.controller.Keyboard
+import com.sophia.farm.controller.KeyboardPresets
+import com.sophia.farm.map.TileType
 import com.sophia.farm.ecs.component.Player
 import com.sophia.farm.ecs.component.Position
 import com.sophia.farm.ecs.component.Position.Companion.position
 import com.sophia.farm.ecs.component.Tilemap
 import com.sophia.farm.ecs.component.Tilemap.Companion.tilemap
-import ktx.app.KtxInputAdapter
 import ktx.ashley.allOf
 
 class KeyboardInputSystem: IteratingSystem(
@@ -23,7 +22,7 @@ class KeyboardInputSystem: IteratingSystem(
     ).get()
 ){
 
-    val keyboard = Keyboard()
+    val keyboard = Keyboard(KeyboardPresets.arrowsAndWasd())
 
     override fun addedToEngine(engine: Engine) {
         super.addedToEngine(engine)
@@ -40,13 +39,13 @@ class KeyboardInputSystem: IteratingSystem(
 
         var newX = position.x
         var newY = position.y
-        if (keyboard.isUpHeld){
+        if (keyboard.isHeld(Action.MOVE_UP)){
             newY++
-        } else if (keyboard.isDownHeld){
+        } else if (keyboard.isHeld(Action.MOVE_DOWN)){
             newY--
-        } else if (keyboard.isLeftHeld){
+        } else if (keyboard.isHeld(Action.MOVE_LEFT)){
             newX--
-        } else if (keyboard.isRightHeld){
+        } else if (keyboard.isHeld(Action.MOVE_RIGHT)){
             newX++
         }
 

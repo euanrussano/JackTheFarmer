@@ -4,7 +4,7 @@ import com.badlogic.ashley.core.Entity
 import com.badlogic.ashley.systems.IteratingSystem
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer
-import com.sophia.farm.TileType
+import com.sophia.farm.map.TileType
 import com.sophia.farm.ecs.component.Tilemap
 import com.sophia.farm.ecs.component.Tilemap.Companion.tilemap
 import ktx.ashley.allOf

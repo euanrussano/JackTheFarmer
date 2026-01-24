@@ -3,7 +3,7 @@ package com.sophia.farm.ecs.component
 import com.badlogic.ashley.core.Component
 import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.utils.Pool
-import com.sophia.farm.TileType
+import com.sophia.farm.map.TileType
 import ktx.ashley.optionalPropertyFor
 
 class Tilemap : Component, Pool.Poolable {
