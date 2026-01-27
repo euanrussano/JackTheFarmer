@@ -5,7 +5,7 @@ Introduction
 2.2. Jack Moves around the Abandoned Farm (basic movement)
 2.3. Making Forest Clearings (procedural map generation)
 2.4. Field of View (or Jack can't see everything) 
-2.5. There are rats in the mines!(other entities)
+2.5. Bunnies jumping everywhere!
 2.6. Being bitten by a rat and scaring them away (basic interaction)
 2.7. Adding a User Interface (GUI)
 2.8. Jack can pick up stuff! (Items and Inventory)

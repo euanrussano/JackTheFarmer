@@ -17,6 +17,7 @@ import com.sophia.farm.map.TileType
 import com.sophia.farm.ecs.component.Player
 import com.sophia.farm.ecs.component.Tilemap
 import com.sophia.farm.ecs.factory.EntityFactory
+import com.sophia.farm.ecs.factory.WorldBuilder
 import com.sophia.farm.ecs.system.ClearEventsSystem
 import com.sophia.farm.ecs.system.KeyboardInputSystem
 import com.sophia.farm.ecs.system.MovementSystem
@@ -31,32 +32,10 @@ class FirstScreen(val game: JackTheFarmer) : KtxScreen {
     val shapeRenderer = ShapeRenderer()
     val viewport = ExtendViewport(20f, 20f)
     val engine = PooledEngine()
-    val mapWidth = 20
-    val mapHeight = 20
-
-    val mapGenerator = DungeonMapGenerator(random)
+    val worldBuilder = WorldBuilder(random, shapeRenderer)
 
     override fun show() {
-        val generatedMap = mapGenerator.generate(mapWidth, mapHeight)
-
-        val tilemap = EntityFactory.tilemap(engine, generatedMap.tiles)
-        val jack = EntityFactory.player(engine, generatedMap.playerSpawn.first,generatedMap.playerSpawn.second)
-
-        // spawn some bunnies
-        val spawnPointsAvailable = generatedMap.spawnPoints.toMutableList()
-        for (i in 0 .. 4){
-            if (spawnPointsAvailable.isEmpty()) break
-            val idx = random.nextInt(spawnPointsAvailable.size)
-            val (x, y) = spawnPointsAvailable.removeAt(idx)
-            EntityFactory.bunny(engine, x, y)
-        }
-
-        engine.addSystem(KeyboardInputSystem())
-        engine.addSystem(MovementSystem())
-        engine.addSystem(VisibilitySystem())
-        engine.addSystem(TilemapRenderingSystem(shapeRenderer))
-        engine.addSystem(ShapeRenderingSystem(shapeRenderer))
-        engine.addSystem(ClearEventsSystem())
+        worldBuilder.build(engine)
     }
 
 
