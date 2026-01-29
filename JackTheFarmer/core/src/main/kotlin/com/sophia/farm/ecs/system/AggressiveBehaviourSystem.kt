@@ -3,6 +3,7 @@ package com.sophia.farm.ecs.system
 import com.badlogic.ashley.core.Entity
 import com.badlogic.ashley.core.EntitySystem
 import com.badlogic.ashley.systems.IteratingSystem
+import com.sophia.farm.ecs.component.Diary.Companion.diary
 import com.sophia.farm.ecs.component.Health.Companion.health
 import com.sophia.farm.ecs.component.Name.Companion.name
 import com.sophia.farm.ecs.component.animal.Aggressive
@@ -28,7 +29,11 @@ class AggressiveBehaviourSystem: IteratingSystem(
 
         val damage = 1
         otherHealth.health -= damage
-        println("${entity.name} attacks ${other.name} for $damage damage")
+
+        val msg = "${entity.name} attacks ${other.name} for $damage damage"
+
+        entity.diary?.messages?.add(msg)
+        other.diary?.messages?.add(msg)
 
     }
 }

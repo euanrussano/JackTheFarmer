@@ -1,9 +1,10 @@
-package com.sophia.farm.ecs.system
+package com.sophia.farm.ecs.system.intent
 
 import com.badlogic.ashley.core.Engine
 import com.badlogic.ashley.core.Entity
 import com.badlogic.ashley.systems.IteratingSystem
 import com.badlogic.gdx.Gdx
+import com.badlogic.gdx.InputMultiplexer
 import com.sophia.farm.Direction
 import com.sophia.farm.controller.Action
 import com.sophia.farm.controller.Keyboard
@@ -26,12 +27,14 @@ class KeyboardInputSystem: IteratingSystem(
 
     override fun addedToEngine(engine: Engine) {
         super.addedToEngine(engine)
-        Gdx.input.inputProcessor = keyboard
+        val im = Gdx.input.inputProcessor as? InputMultiplexer?: InputMultiplexer()
+        im.addProcessor(keyboard)
+        Gdx.input.inputProcessor = im
     }
 
     override fun removedFromEngine(engine: Engine) {
         super.removedFromEngine(engine)
-        Gdx.input.inputProcessor = keyboard
+        (Gdx.input.inputProcessor as? InputMultiplexer)?.removeProcessor(keyboard)
     }
 
     override fun processEntity(entity: Entity, deltaTime: Float) {

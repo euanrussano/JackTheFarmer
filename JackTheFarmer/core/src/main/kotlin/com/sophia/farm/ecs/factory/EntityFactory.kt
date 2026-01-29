@@ -3,7 +3,9 @@ package com.sophia.farm.ecs.factory
 import com.badlogic.ashley.core.Engine
 import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.graphics.Color
+import com.sophia.farm.ecs.component.CameraFollow
 import com.sophia.farm.ecs.component.CanScareAggressiveAnimal
+import com.sophia.farm.ecs.component.Diary
 import com.sophia.farm.ecs.component.FieldOfView
 import com.sophia.farm.ecs.component.Health
 import com.sophia.farm.ecs.component.Name
@@ -55,6 +57,8 @@ object EntityFactory {
             with<Spawned>()
             with<Health>()
             with<CanScareAggressiveAnimal>()
+            with<CameraFollow>()
+            with<Diary>()
         }
     }
 

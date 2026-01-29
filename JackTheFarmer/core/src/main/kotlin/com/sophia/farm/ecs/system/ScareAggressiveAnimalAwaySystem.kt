@@ -3,6 +3,7 @@ package com.sophia.farm.ecs.system
 import com.badlogic.ashley.core.Entity
 import com.badlogic.ashley.systems.IteratingSystem
 import com.sophia.farm.ecs.component.CanScareAggressiveAnimal
+import com.sophia.farm.ecs.component.Diary.Companion.diary
 import com.sophia.farm.ecs.component.Name.Companion.name
 import com.sophia.farm.ecs.component.animal.Aggressive.Companion.isAggressive
 import com.sophia.farm.ecs.component.animal.Animal.Companion.isAnimal
@@ -37,10 +38,13 @@ class ScareAggressiveAnimalAwaySystem: IteratingSystem(
         }
 
         val factor = other.scared?.factor!!
-        println("${entity.name} tries to scare a ${other.name}. scaring: $factor/1.0")
+        val msg = "${entity.name} tries to scare a ${other.name}. scaring: $factor/1.0"
+        entity.diary?.messages?.add(msg)
+        other.diary?.messages?.add(msg)
 
         if ((other.scared?.factor ?: 0f) >= 1f) {
-            println("${entity.name} scared a ${other.name} away!")
+            val msg = "${entity.name} scared a ${other.name} away!"
+            entity.diary?.messages?.add(msg)
             engine.removeEntity(other)
         }
     }
