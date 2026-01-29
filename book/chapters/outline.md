@@ -6,7 +6,8 @@ Introduction
 2.3. Making Forest Clearings (procedural map generation)
 2.4. Field of View (or Jack can't see everything) 
 2.5. Bunnies jumping everywhere!
-2.6. Being bitten by a rat and scaring them away (basic interaction)
+2.6. Being bitten by a rat (basic interaction)
+2.6b. Scaring the rats away
 2.7. Adding a User Interface (GUI)
 2.8. Jack can pick up stuff! (Items and Inventory)
 2.9. Jack can scare rats from distance (Ranged Tool/Targeting)

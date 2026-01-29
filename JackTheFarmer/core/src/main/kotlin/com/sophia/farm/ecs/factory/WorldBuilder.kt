@@ -8,6 +8,7 @@ import com.sophia.farm.ecs.system.ClearEventsSystem
 import com.sophia.farm.ecs.system.CollisionSystem
 import com.sophia.farm.ecs.system.KeyboardInputSystem
 import com.sophia.farm.ecs.system.MovementSystem
+import com.sophia.farm.ecs.system.ScareAggressiveAnimalAwaySystem
 import com.sophia.farm.ecs.system.ShapeRenderingSystem
 import com.sophia.farm.ecs.system.TilemapRenderingSystem
 import com.sophia.farm.ecs.system.VisibilitySystem
@@ -47,6 +48,7 @@ class WorldBuilder(
         engine.addSystem(KeyboardInputSystem())
         engine.addSystem(AnimalSteeringSystem())
         engine.addSystem(CollisionSystem())
+        engine.addSystem(ScareAggressiveAnimalAwaySystem())
         engine.addSystem(AggressiveBehaviourSystem())
         engine.addSystem(MovementSystem())
         engine.addSystem(VisibilitySystem())
