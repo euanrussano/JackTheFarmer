@@ -2,8 +2,10 @@ package com.sophia.farm.ecs.factory
 
 import com.badlogic.ashley.core.PooledEngine
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer
+import com.sophia.farm.ecs.system.AggressiveBehaviourSystem
 import com.sophia.farm.ecs.system.AnimalSteeringSystem
 import com.sophia.farm.ecs.system.ClearEventsSystem
+import com.sophia.farm.ecs.system.CollisionSystem
 import com.sophia.farm.ecs.system.KeyboardInputSystem
 import com.sophia.farm.ecs.system.MovementSystem
 import com.sophia.farm.ecs.system.ShapeRenderingSystem
@@ -44,6 +46,8 @@ class WorldBuilder(
     private fun installSystems(engine: PooledEngine) {
         engine.addSystem(KeyboardInputSystem())
         engine.addSystem(AnimalSteeringSystem())
+        engine.addSystem(CollisionSystem())
+        engine.addSystem(AggressiveBehaviourSystem())
         engine.addSystem(MovementSystem())
         engine.addSystem(VisibilitySystem())
         engine.addSystem(TilemapRenderingSystem(shapeRenderer))

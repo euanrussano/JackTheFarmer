@@ -4,6 +4,7 @@ import com.badlogic.ashley.core.Engine
 import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.graphics.Color
 import com.sophia.farm.ecs.component.FieldOfView
+import com.sophia.farm.ecs.component.Health
 import com.sophia.farm.ecs.component.Name
 import com.sophia.farm.map.TileType
 import com.sophia.farm.ecs.component.Player
@@ -11,6 +12,7 @@ import com.sophia.farm.ecs.component.Position
 import com.sophia.farm.ecs.component.Shape
 import com.sophia.farm.ecs.component.Size
 import com.sophia.farm.ecs.component.Tilemap
+import com.sophia.farm.ecs.component.animal.Aggressive
 import com.sophia.farm.ecs.component.animal.Animal
 import com.sophia.farm.ecs.component.animal.Curious
 import com.sophia.farm.ecs.component.animal.Timid
@@ -50,6 +52,7 @@ object EntityFactory {
             with<Player>()
             with<FieldOfView>()
             with<Spawned>()
+            with<Health>()
         }
     }
 
@@ -61,7 +64,11 @@ object EntityFactory {
         return animal(engine, "Bunny", x, y, Shape.ShapeType.CIRCLE, Color.YELLOW, isTimid=true)
     }
 
-    fun animal(engine: Engine, name: String, x: Int, y: Int, shapeType: Shape.ShapeType, color: Color, isCurious: Boolean=false, isTimid: Boolean=false): Entity{
+    fun rat(engine: Engine, x: Int, y: Int): Entity{
+        return animal(engine, "Rat", x, y, Shape.ShapeType.CIRCLE, Color.LIGHT_GRAY, isCurious=true, isAggressive=true)
+    }
+
+    fun animal(engine: Engine, name: String, x: Int, y: Int, shapeType: Shape.ShapeType, color: Color, isCurious: Boolean=false, isTimid: Boolean=false, isAggressive: Boolean=false): Entity{
         return engine.entity {
             with<Name>{
                 this.text = name
@@ -82,16 +89,26 @@ object EntityFactory {
             with<Animal>()
             if (isCurious) with<Curious>()
             if (isTimid) with<Timid>()
+            if (isAggressive) with<Aggressive>()
             with<Spawned>()
         }
     }
 
     fun randomAnimal(engine: Engine, x: Int, y: Int, random: Random): Entity{
-        if (random.nextBoolean()){
-            return bunny(engine, x, y)
-        } else {
-            return fox(engine, x, y)
+        val table = mutableMapOf(
+            0.33f to ::bunny,
+            0.33f to ::fox,
+            0.34f to ::rat
+        )
+        val randomValue = random.nextFloat()
+        var accumulated = randomValue
+        table.forEach {
+            if (randomValue < it.key){
+                return it.value(engine, x, y)
+            }
+            accumulated += it.key
         }
+        return rat(engine, x, y)
     }
 
 

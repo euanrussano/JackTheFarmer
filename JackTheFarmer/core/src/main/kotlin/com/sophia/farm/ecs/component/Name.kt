@@ -12,6 +12,10 @@ class Name : Component, Pool.Poolable {
         text = "<Unnamed>"
     }
 
+    override fun toString(): String {
+        return text
+    }
+
     companion object {
         val Entity.name by optionalPropertyFor<Name>()
     }
